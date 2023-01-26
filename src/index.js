@@ -19,6 +19,6 @@ process.on('unhandledRejection', (reason, promise) => {
   logger.fatal({ reason, promise }, 'unhandledRejection');
   throw reason;
 });
-const unneededVariable = 'This variable is never used';
+
 // Start our server
 require('./server');
