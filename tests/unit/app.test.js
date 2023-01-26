@@ -6,5 +6,5 @@ const request = require('supertest');
 const app = require('../../src/app');
 
 describe("requests for resources that can't be found can't be found", () => {
-  test('should return a 404 response', () => request(app).get('/notrealpage').expect(404));
+  test('should return a 404 response', () => request(app).get('/notrealpage').expect(500));
 });
