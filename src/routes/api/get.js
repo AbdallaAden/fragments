@@ -15,12 +15,12 @@ module.exports = async (req, res) => {
     //let { val } = req.query.expand;
     let expand = true;
     //if (val > 0) expand = true;
-    const fragments = await Fragment.byUser(req.user, expand);
+    const fragment = await Fragment.byUser(req.user, expand);
 
     logger.debug('Got fragments data');
     res.status(200).json(
       createSuccessResponse({
-        fragment: fragments,
+        fragments: fragment,
       })
     );
   } catch (e) {
