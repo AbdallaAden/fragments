@@ -55,7 +55,7 @@ class Fragment {
    * @returns Promise<Array<Fragment>>
    */
   static async byUser(ownerId, expand = false) {
-    logger.debug({ ownerId, expand }, 'byUser()');
+    //logger.debug({ ownerId, expand }, 'byUser()');
     try {
       return listFragments(ownerId, expand);
     } catch (err) {
