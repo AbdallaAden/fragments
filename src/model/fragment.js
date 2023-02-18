@@ -31,6 +31,7 @@ const validTypes = [
 
 class Fragment {
   constructor({ id, ownerId, created, updated, type, size = 0 }) {
+    //logger.info(size + ' size of fragment passed');
     if (!ownerId && !type) throw new Error('ownerId and type are required'); //throw Error
     if (!ownerId && type) throw new Error('ownerId is required');
     if (ownerId && !type) throw new Error('type is required');
@@ -77,7 +78,7 @@ class Fragment {
         throw new Error('Fragment does not exist.');
       }
 
-      logger.debug({ data }, 'byId()');
+      //logger.debug({ data }, 'byId()');
       return data;
     } catch (err) {
       throw new Error(err);
@@ -105,7 +106,7 @@ class Fragment {
    * @returns Promise<void>
    */
   save() {
-    logger.debug(this, 'save()');
+    //logger.debug(this, 'save()');
     this.updated = new Date().toISOString();
     try {
       return writeFragment(this);
@@ -134,7 +135,7 @@ class Fragment {
   async setData(data) {
     try {
       if (!data) {
-        throw Error('Data is empty');
+        throw Error('Data is missing');
       }
 
       if (!Buffer.isBuffer(data)) {
@@ -144,9 +145,10 @@ class Fragment {
       // logger.debug({ data }, 'setData() data'); // Is lengthy for larger files
 
       this.size = Buffer.byteLength(data);
+      logger.info(this.size + ' buffer size in setData()');
       this.updated = new Date().toISOString();
-
-      return await writeFragmentData(this.ownerId, this.id, data);
+      await this.save();
+      return writeFragmentData(this.ownerId, this.id, data);
     } catch (err) {
       throw new Error(err);
     }
@@ -184,7 +186,7 @@ class Fragment {
    * @returns {boolean} true if we support this Content-Type (i.e., type/subtype)
    */
   static isSupportedType(value) {
-    logger.info(value + ' parameter passed');
+    //logger.info(value + ' parameter passed');
     return Object.values(validTypes).includes(value);
   }
 }
