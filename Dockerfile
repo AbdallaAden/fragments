@@ -1,7 +1,7 @@
 # A Dockerfile defines a set of instructions used by the Docker Engine to create a Docker Image. This Docker Image can be used to create a running Docker Container
 
 #Every Dockerfile must begin with a FROM instruction. This specifies the parent (or base) image to use as a starting point for our own image
-FROM node:18.13.0
+FROM node:18.13.0-alpine@sha256:d871edd5b68105ebcbfcde3fe8c79d24cbdbb30430d9bd6251c57c56c7bd7646 AS build
 
 #Some metadata about the image. The LABEL instruction adds key=value pairs with arbitrary metadata about your image.
 LABEL maintainer="Abdalla Aden <aaaden1@myseneca.ca>"
