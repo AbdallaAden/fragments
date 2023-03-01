@@ -20,12 +20,13 @@ module.exports = async (req, res) => {
   } else {
     try {
       //const fragment = new Fragment({ ownerId: req.user, type: req.get('Content-Type') });
-      const bufSize = Buffer.byteLength(dataBuf);
+      console.log('\x1b[33m%s\x1b[0m', req.body);
+      const bufSize = Buffer.byteLength(req.body, 'utf8');
       logger.info(bufSize + ' buffer size in Post');
       const fragment = new Fragment({
         ownerId: user,
         type: contentType,
-        size: bufSize,
+        size: Buffer.byteLength(req.body),
       });
       await fragment.save();
       await fragment.setData(dataBuf);
