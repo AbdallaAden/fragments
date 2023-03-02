@@ -17,16 +17,16 @@ const {
 const validTypes = [
   'text/plain',
   'text/plain; charset=utf-8',
-  /*
-   Currently, only text/plain is supported. Others will be added later.
   `text/markdown`,
   `text/html`,
+
+  /*Currently, only text/plain is supported. Others will be added later.
+  
   `application/json`,
   `image/png`,
   `image/jpeg`,
   `image/webp`,
-  `image/gif`,
-  */
+  `image/gif`,*/
 ];
 
 class Fragment {
@@ -186,8 +186,9 @@ class Fragment {
    * @returns {boolean} true if we support this Content-Type (i.e., type/subtype)
    */
   static isSupportedType(value) {
-    //logger.info(value + ' parameter passed');
+    logger.info(value + ' parameter passed');
     return Object.values(validTypes).includes(value);
+    //return true;
   }
 }
 
