@@ -8,7 +8,7 @@ const logger = require('../../logger');
 module.exports = async (req, res) => {
   const api = process.env.API_URL || 'http://localhost:8080';
   const data = req.body;
-  const dataBuf = new Buffer(data);
+  const dataBuf = Buffer.from(data);
   const user = req.user;
   const contentType = req.headers['content-type'];
 
@@ -20,9 +20,8 @@ module.exports = async (req, res) => {
   } else {
     try {
       //const fragment = new Fragment({ ownerId: req.user, type: req.get('Content-Type') });
-      console.log('\x1b[33m%s\x1b[0m', req.body);
-      const bufSize = Buffer.byteLength(req.body, 'utf8');
-      logger.info(bufSize + ' buffer size in Post');
+      //console.log('\x1b[33m%s\x1b[0m', req.body);
+
       const fragment = new Fragment({
         ownerId: user,
         type: contentType,
@@ -30,11 +29,14 @@ module.exports = async (req, res) => {
       });
       await fragment.save();
       await fragment.setData(dataBuf);
-
+      const fragData = await fragment.getData();
+      logger.info('FRAG DATA (' + fragData.toString() + ')');
       logger.info({ fragment }, 'New fragment created');
 
       res.setHeader('Content-type', fragment.type);
       res.setHeader('Location', api + '/v1/fragments/' + fragment.id);
+
+      //
       res.status(201).json(
         createSuccessResponse({
           fragment: fragment,
