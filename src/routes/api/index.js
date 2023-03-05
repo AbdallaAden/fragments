@@ -26,7 +26,7 @@ const rawBody = () =>
       // a Buffer (e.g., `Buffer.isBuffer(req.body) === true`). If not, `req.body`
       // will be equal to an empty Object `{}` and `Buffer.isBuffer(req.body) === false`
       const { type } = contentType.parse(req);
-      //logger.info(type + ' fragment type in raw body');
+      logger.info(type + ' fragment type in raw body');
       //logger.info(Fragment.id + ' fragment id in raw body');
       return Fragment.isSupportedType(type);
     },

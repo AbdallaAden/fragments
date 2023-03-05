@@ -10,12 +10,19 @@ const { Fragment } = require('../../model/fragment');
 module.exports = async (req, res) => {
   //logger.debug('req.query: ' + JSON.stringify(req.query));
   //logger.debug(req.user + ' get by User section');
-
+  logger.debug(`req.query: ${JSON.stringify(req.query)}`);
+  logger.debug('EXPAND ' + req.query.expand);
   try {
-    //let { val } = req.query.expand;
-    let expand = true;
+    let val = false;
+    if (req.query.expand == 1) {
+      val = true;
+    }
+    logger.debug('value of expand = ' + val);
+    //logger.info(req.query.expand + 'value of expand');
+
+    //let expand = true;
     //if (val > 0) expand = true;
-    const fragment = await Fragment.byUser(req.user, expand);
+    const fragment = await Fragment.byUser(req.user, val);
 
     logger.debug('Got fragments data');
     res.status(200).json(
