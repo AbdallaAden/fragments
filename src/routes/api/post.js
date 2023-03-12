@@ -43,7 +43,7 @@ module.exports = async (req, res) => {
         })
       );
     } catch (e) {
-      res.status(415).json(createErrorResponse(500, e.message));
+      res.status(415).json(createErrorResponse(415, e.message));
       logger.warn(e.message, 'Error posting fragment');
     }
   }
