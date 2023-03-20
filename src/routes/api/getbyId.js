@@ -1,6 +1,6 @@
 const logger = require('../../logger');
 const { Fragment } = require('../../model/fragment');
-const { createSuccessResponse, createErrorResponse } = require('../../response');
+const { createErrorResponse } = require('../../response');
 const path = require('node:path');
 
 module.exports = async (req, res) => {
