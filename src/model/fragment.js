@@ -19,10 +19,10 @@ const validTypes = [
   'text/plain; charset=utf-8',
   `text/markdown`,
   `text/html`,
-
+  `application/json`,
   /*Currently, only text/plain is supported. Others will be added later.
   
-  `application/json`,
+  
   `image/png`,
   `image/jpeg`,
   `image/webp`,
@@ -177,7 +177,7 @@ class Fragment {
    * @returns {Array<string>} list of supported mime types
    */
   get formats() {
-    return ['text/plain']; //only type supported for now
+    return validTypes; //only type supported for now
   }
 
   /**
