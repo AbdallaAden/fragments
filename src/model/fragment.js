@@ -4,6 +4,8 @@ const { randomUUID } = require('crypto');
 // Use https://www.npmjs.com/package/content-type to create/parse Content-Type headers
 const contentType = require('content-type');
 const logger = require('../logger');
+var MarkdownIt = require('markdown-it'),
+  md = new MarkdownIt();
 
 // Functions for working with fragment metadata/data using our DB
 const {
@@ -177,7 +179,57 @@ class Fragment {
    * @returns {Array<string>} list of supported mime types
    */
   get formats() {
-    return validTypes; //only type supported for now
+    let fType = [];
+    switch (this.type) {
+      case 'text/plain':
+        fType = ['text/plain'];
+        break;
+      case 'text/plain; charset=utf-8':
+        fType = ['text/plain'];
+        break;
+      case 'text/markdown':
+        return ['text/markdown', 'text/html', 'text/plain'];
+
+      case 'text/html':
+        return ['text/html', 'text/plain'];
+
+      case 'application/json':
+        return ['application/json	', 'text/plain'];
+
+      default:
+        return []; // unknown file type
+    }
+    return fType;
+  }
+  static extType(ext) {
+    switch (ext) {
+      case '.txt':
+        return 'text/plain';
+
+      case '.md':
+        return 'text/markdown';
+
+      case '.html':
+        return 'text/html';
+
+      case '.json':
+        return 'application/json';
+
+      default:
+        return 'unknown type'; // unknown
+    }
+  }
+
+  async convertFrag(fragData, conType) {
+    switch (conType) {
+      case 'text/plain':
+        return fragData.toString();
+      case 'text/html':
+        if (this.type === 'text/markdown') return md.render(fragData.toString());
+        return fragData;
+      default:
+        return fragData;
+    }
   }
 
   /**
