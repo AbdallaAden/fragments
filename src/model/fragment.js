@@ -194,7 +194,7 @@ class Fragment {
         return ['text/html', 'text/plain'];
 
       case 'application/json':
-        return ['application/json	', 'text/plain'];
+        return ['application/json', 'text/plain'];
 
       default:
         return []; // unknown file type
@@ -216,7 +216,7 @@ class Fragment {
         return 'application/json';
 
       default:
-        return 'unknown type'; // unknown
+        return ''; // unknown
     }
   }
 

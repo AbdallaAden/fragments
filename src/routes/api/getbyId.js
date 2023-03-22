@@ -9,21 +9,29 @@ module.exports = async (req, res) => {
   const extension = path.extname(req.params.id);
   logger.debug('GET BY ID SECTION EXT ' + extension);
   logger.info(id + ' ' + req.user);
+
   try {
-    let valid = false;
+    let valid = false; ////////////////////////////TEST THIS IN THE MORNING
     const fragments = await Fragment.byId(req.user, id);
+    if (extension.length > 0 && Fragment.extType(extension) === '') {
+      res
+        .status(415)
+        .json(
+          createErrorResponse(
+            415,
+            `a ${fragments.type} fragment cannot be returned as a ${extension}`
+          )
+        );
+    }
+
     const fragData = await fragments.getData();
     let displayData = fragData.toString();
 
-    if (extension) {
-      logger.info('ENTERED EXTENSION IF ');
-
-      if (extension === '.html') {
-        valid = true;
-        var type = Fragment.extType(extension);
-        var newFrag = await fragments.convertFrag(fragData, type);
-        displayData = newFrag.toString();
-      }
+    if (extension === '.html') {
+      valid = true;
+      var type = Fragment.extType(extension);
+      var newFrag = await fragments.convertFrag(fragData, type);
+      displayData = newFrag.toString();
     }
 
     const st = 'HTTP/1.1 200 OK';

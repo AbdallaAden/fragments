@@ -6,13 +6,13 @@ const wait = async (ms = 10) => new Promise((resolve) => setTimeout(resolve, ms)
 
 const validTypes = [
   `text/plain`,
-  /*
-   Currently, only text/plain is supported. Others will be added later.
+
+  //Currently, only text/plain is supported. Others will be added later.
 
   `text/markdown`,
   `text/html`,
   `application/json`,
-  `image/png`,
+  /*`image/png`,
   `image/jpeg`,
   `image/webp`,
   `image/gif`,
@@ -40,6 +40,38 @@ describe('Fragment class', () => {
     test('type can be a simple media type', () => {
       const fragment = new Fragment({ ownerId: '1234', type: 'text/plain', size: 0 });
       expect(fragment.type).toEqual('text/plain');
+    });
+
+    test('Fragment type of text/plain should return conversion types', () => {
+      const fragment = new Fragment({ ownerId: '1234', type: 'text/plain', size: 0 });
+      expect(fragment.formats).toEqual(['text/plain']);
+    });
+    test('Fragment type of text/markdown should return conversion types', () => {
+      const fragment = new Fragment({ ownerId: '1234', type: 'text/markdown', size: 0 });
+      expect(fragment.formats).toEqual(['text/markdown', 'text/html', 'text/plain']);
+    });
+    test('Fragment type of text/html should return conversion types', () => {
+      const fragment = new Fragment({ ownerId: '1234', type: 'text/html', size: 0 });
+      expect(fragment.formats).toEqual(['text/html', 'text/plain']);
+    });
+    test('Fragment type of application/json should return conversion types', () => {
+      const fragment = new Fragment({ ownerId: '1234', type: 'application/json', size: 0 });
+      expect(fragment.formats).toEqual(['application/json', 'text/plain']);
+    });
+
+    test('Fragment extension type of .txt should return valid type name', () => {
+      expect(Fragment.extType('.txt')).toBe('text/plain');
+      expect(Fragment.extType('.md')).toBe('text/markdown');
+      expect(Fragment.extType('.html')).toBe('text/html');
+      expect(Fragment.extType('.json')).toBe('application/json');
+      expect(Fragment.extType('unknown')).toBe('');
+    });
+
+    test('Fragment conversion types', async () => {
+      const data = Buffer.from('hello');
+      const fragment = new Fragment({ ownerId: '1111', type: 'text/plain', size: 0 });
+      await fragment.setData(data);
+      expect(await fragment.convertFrag(data, 'text/plain')).toEqual('hello');
     });
 
     test('type can include a charset', () => {
