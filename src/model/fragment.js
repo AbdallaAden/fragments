@@ -239,8 +239,8 @@ class Fragment {
    */
   static isSupportedType(value) {
     logger.info(value + ' parameter passed');
-    return Object.values(validTypes).includes(value);
-    //return true;
+    //return Object.values(validTypes).includes(value);
+    return validTypes.some((item) => value.includes(item));
   }
 }
 

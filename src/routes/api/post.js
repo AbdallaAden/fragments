@@ -8,7 +8,7 @@ const logger = require('../../logger');
 module.exports = async (req, res) => {
   const api = process.env.API_URL || 'http://localhost:8080';
   const data = req.body;
-  const dataBuf = Buffer.from(data);
+  //const dataBuf = Buffer.from(data);
   const user = req.user;
   const contentType = req.headers['content-type'];
 
@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
   //logger.info(contentType, +' fragment type in post.js');
   if (!Fragment.isSupportedType(contentType)) {
     logger.error(`${contentType} is not supported Content Type`);
-    res.json(createErrorResponse(415, `${contentType} is not supported Content Type`));
+    res.status(415).json(createErrorResponse(415, `${contentType} is not supported Content Type`));
   } else {
     try {
       //const fragment = new Fragment({ ownerId: req.user, type: req.get('Content-Type') });
@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
         size: Buffer.byteLength(req.body),
       });
       await fragment.save();
-      await fragment.setData(dataBuf);
+      await fragment.setData(Buffer.from(data));
       const fragData = await fragment.getData();
       logger.info('FRAG DATA (' + fragData.toString() + ')');
       logger.info({ fragment }, 'New fragment created');

@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
       displayData = newFrag.toString();
     }
 
-    const st = 'HTTP/1.1 200 OK';
+    //const st = 'HTTP/1.1 200 OK';
     logger.debug('Got fragments data ');
 
     //res.setHeader('Location', api + '/v1/fragments/' + fragment.id);
@@ -43,21 +43,14 @@ module.exports = async (req, res) => {
       res
         .status(200)
         .send(
-          st +
-            '\nContent-type: ' +
-            type +
-            '\nContent-length: ' +
-            displayData.length +
-            '\n\n' +
-            displayData
+          'Content-type: ' + type + '\nContent-length: ' + displayData.length + '\n\n' + displayData
         );
     } else {
       res.setHeader('Content-type', fragments.type);
       res
         .status(200)
         .send(
-          st +
-            '\nContent-type: ' +
+          'Content-type: ' +
             fragments.type +
             '\nContent-length: ' +
             fragments.size +
