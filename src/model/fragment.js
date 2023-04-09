@@ -3,7 +3,7 @@
 const { randomUUID } = require('crypto');
 // Use https://www.npmjs.com/package/content-type to create/parse Content-Type headers
 const contentType = require('content-type');
-const logger = require('../logger');
+//const logger = require('../logger');
 var MarkdownIt = require('markdown-it'),
   md = new MarkdownIt();
 
@@ -58,7 +58,7 @@ class Fragment {
    * @returns Promise<Array<Fragment>>
    */
   static async byUser(ownerId, expand = false) {
-    logger.debug({ ownerId, expand }, 'byUser()');
+    //logger.debug({ ownerId, expand }, 'byUser()');
     try {
       return listFragments(ownerId, expand);
     } catch (err) {
@@ -147,7 +147,7 @@ class Fragment {
       // logger.debug({ data }, 'setData() data'); // Is lengthy for larger files
 
       this.size = Buffer.byteLength(data);
-      logger.info(this.size + ' buffer size in setData()');
+      //logger.info(this.size + ' buffer size in setData()');
       this.updated = new Date().toISOString();
       await this.save();
       return writeFragmentData(this.ownerId, this.id, data);
@@ -221,12 +221,18 @@ class Fragment {
   }
 
   async convertFrag(fragData, conType) {
+    let newData = fragData;
     switch (conType) {
       case 'text/plain':
         return fragData.toString();
       case 'text/html':
-        if (this.type === 'text/markdown') return md.render(fragData.toString());
+        if (this.type === 'text/markdown') {
+          newData = md.render(fragData.toString());
+          newData = Buffer.from(newData);
+          return newData;
+        }
         return fragData;
+
       default:
         return fragData;
     }
@@ -238,7 +244,7 @@ class Fragment {
    * @returns {boolean} true if we support this Content-Type (i.e., type/subtype)
    */
   static isSupportedType(value) {
-    logger.info(value + ' parameter passed');
+    //logger.info(value + ' parameter passed');
     //return Object.values(validTypes).includes(value);
     return validTypes.some((item) => value.includes(item));
   }

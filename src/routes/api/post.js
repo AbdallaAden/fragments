@@ -35,6 +35,7 @@ module.exports = async (req, res) => {
 
       res.setHeader('Content-type', fragment.type);
       res.setHeader('Location', api + '/v1/fragments/' + fragment.id);
+      res.setHeader('Content-Length', fragment.size);
 
       //
       res.status(201).json(

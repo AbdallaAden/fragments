@@ -1,7 +1,7 @@
 // src/routes/index.js
 
 const express = require('express');
-
+const { hostname } = require('os');
 // version and author from package.json
 const { version, author } = require('../../package.json');
 // Our authentication middleware
@@ -24,10 +24,11 @@ router.get('/', (req, res) => {
   // Send a 200 'OK' response
   res.status(200).json({
     status: 'ok',
-    author,
+    author /*: 'Abdalla Aden'*/,
     // Use your own GitHub URL for this...
     githubUrl: 'https://github.com/AbdallaAden/fragments',
     version,
+    hostname: hostname(),
   });
 });
 
