@@ -67,7 +67,7 @@ jobs:
           # Use the git tag version and `latest`
           tags: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPO }}:${{ env.VERSION_TAG }}, ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPO }}:latest
 
-    # We need to update our fragment's Task Definition JSON
+      # We need to update our fragment's Task Definition JSON
       # (i.e., fragments-definition.json) to use the newly
       # updated Docker Image to use (i.e., the tag we just pushed to ECR).
       # We can also update/set the environment variables if we want.
@@ -97,10 +97,10 @@ jobs:
             AWS_COGNITO_POOL_ID=${{ secrets.AWS_COGNITO_POOL_ID }}
             PORT=${{ secrets.PORT }}
             AWS_REGION=${{ secrets.AWS_REGION }}
-        - name: Deploy Amazon ECS task definition
-            uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-            with:
-              task-definition: ${{ steps.update-task-def.outputs.task-definition }}
-              cluster: fragments-cluster
-              service: fragments-service
-              wait-for-service-stability: true
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.update-task-def.outputs.task-definition }}
+          cluster: fragments-cluster
+          service: fragments-service
+          wait-for-service-stability: true
