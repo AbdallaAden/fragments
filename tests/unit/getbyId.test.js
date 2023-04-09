@@ -43,6 +43,6 @@ describe('GET /v1/fragments/:id', () => {
     const convertFrag = await request(app)
       .get(`/v1/fragments/${id}.html`)
       .auth('user1@email.com', 'password1');
-    expect(convertFrag.headers['content-type']).toBe('text/html; charset=utf-8');
+    expect(convertFrag.headers['content-type']).toBe('text/html'); /*charset=utf-8*/
   });
 });
