@@ -25,7 +25,12 @@
       "command": [],
       "linuxParameters": null,
       "cpu": 256,
-      "environment": [],
+      "environment": [
+        {
+          "name": "AWS_S3_BUCKET_NAME",
+          "value": "aaaden1-fragments"
+        }
+      ],
       "resourceRequirements": null,
       "ulimits": null,
       "dnsServers": null,
@@ -59,7 +64,7 @@
   ],
   "placementConstraints": [],
   "memory": "512",
-  "taskRoleArn": null,
+  "taskRoleArn": "arn:aws:iam::575550845805:role/LabRole",
   "compatibilities": ["EC2", "FARGATE"],
   "taskDefinitionArn": "arn:aws:ecs:us-east-1:575550845805:task-definition/fragments-task:1",
   "family": "fragments-task",

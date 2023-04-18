@@ -3,7 +3,7 @@
 const { randomUUID } = require('crypto');
 // Use https://www.npmjs.com/package/content-type to create/parse Content-Type headers
 const contentType = require('content-type');
-//const logger = require('../logger');
+const logger = require('../logger');
 var MarkdownIt = require('markdown-it'),
   md = new MarkdownIt();
 
@@ -244,7 +244,9 @@ class Fragment {
    * @returns {boolean} true if we support this Content-Type (i.e., type/subtype)
    */
   static isSupportedType(value) {
-    //logger.info(value + ' parameter passed');
+    logger.info(value + ' parameter passed');
+    let result = validTypes.some((item) => value.includes(item));
+    logger.info(result, ' isSupported type');
     //return Object.values(validTypes).includes(value);
     return validTypes.some((item) => value.includes(item));
   }

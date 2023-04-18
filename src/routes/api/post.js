@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
   const contentType = req.headers['content-type'];
 
   //logger.debug(user, 'POST request user');
-  //logger.info(contentType, +' fragment type in post.js');
+  logger.info(contentType, +' fragment type in post.js');
   if (!Fragment.isSupportedType(contentType)) {
     logger.error(`${contentType} is not supported Content Type`);
     res.status(415).json(createErrorResponse(415, `${contentType} is not supported Content Type`));
