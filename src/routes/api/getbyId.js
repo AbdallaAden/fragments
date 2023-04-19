@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
         );
     }
 
-    const fragData = await Fragment.getData();
+    const fragData = await fragments.getData();
     let displayData = fragData.toString();
 
     if (extension === '.html') {

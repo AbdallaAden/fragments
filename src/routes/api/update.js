@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
       id: id,
       created: fragments.created,
       type: contentType,
-      //size: req.body.length,
+      size: Buffer.byteLength(req.body),
     });
     await newFrag.save();
     await newFrag.setData(req.body);
