@@ -4,6 +4,7 @@ const { randomUUID } = require('crypto');
 // Use https://www.npmjs.com/package/content-type to create/parse Content-Type headers
 const contentType = require('content-type');
 const logger = require('../logger');
+
 var MarkdownIt = require('markdown-it'),
   md = new MarkdownIt();
 
@@ -121,7 +122,7 @@ class Fragment {
    * Gets the fragment's data from the database
    * @returns Promise<Buffer>
    */
-  getData() {
+  async getData() {
     try {
       return readFragmentData(this.ownerId, this.id);
     } catch (err) {
