@@ -6,7 +6,7 @@
 const express = require('express');
 const contentType = require('content-type');
 const { Fragment } = require('../../model/fragment');
-//const logger = require('../../logger');
+const logger = require('../../logger');
 
 // Create a router on which to mount our API endpoints
 const router = express.Router();
@@ -26,7 +26,7 @@ const rawBody = () =>
       // a Buffer (e.g., `Buffer.isBuffer(req.body) === true`). If not, `req.body`
       // will be equal to an empty Object `{}` and `Buffer.isBuffer(req.body) === false`
       const { type } = contentType.parse(req);
-      //logger.info(type + ' fragment type in raw body');
+      logger.debug(type + ' fragment type in raw body');
       //logger.info(Fragment.id + ' fragment id in raw body');
       return Fragment.isSupportedType(type);
     },

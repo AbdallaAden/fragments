@@ -4,6 +4,7 @@ const { randomUUID } = require('crypto');
 // Use https://www.npmjs.com/package/content-type to create/parse Content-Type headers
 const contentType = require('content-type');
 const logger = require('../logger');
+const sharp = require('sharp');
 
 var MarkdownIt = require('markdown-it'),
   md = new MarkdownIt();
@@ -23,13 +24,10 @@ const validTypes = [
   `text/markdown`,
   `text/html`,
   `application/json`,
-  /*Currently, only text/plain is supported. Others will be added later.
-  
-  
   `image/png`,
   `image/jpeg`,
   `image/webp`,
-  `image/gif`,*/
+  `image/gif`,
 ];
 
 class Fragment {
@@ -196,6 +194,11 @@ class Fragment {
 
       case 'application/json':
         return ['application/json', 'text/plain'];
+      case `image/png`:
+      case `image/jpg`:
+      case `image/webp`:
+      case `image/gif`:
+        return [`image/png`, `image/jpg`, `image/webp`, `image/gif`];
 
       default:
         return []; // unknown file type
@@ -232,7 +235,15 @@ class Fragment {
           newData = Buffer.from(newData);
           return newData;
         }
-        return fragData;
+        break;
+      case 'image/png':
+        return await sharp(fragData).png().toBuffer();
+      case 'image/jpeg':
+        return await sharp(fragData).jpeg().toBuffer();
+      case 'image/gif':
+        return await sharp(fragData).gif().toBuffer();
+      case 'image/webp':
+        return await sharp(fragData).webp().toBuffer();
 
       default:
         return fragData;
