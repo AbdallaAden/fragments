@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
 
   try {
     let valid = false; ////////////////////////////TEST THIS IN THE MORNING
-    const fragments = await Fragment.byId(req.user, id);
+    const fragments = new Fragment(await Fragment.byId(req.user, id));
     if (extension.length > 0 && Fragment.extType(extension) === '') {
       res
         .status(415)
@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
         );
     }
 
-    const fragData = await fragments.getData();
+    const fragData = fragments.getData();
     let displayData = fragData.toString();
 
     if (extension === '.html') {

@@ -122,7 +122,7 @@ class Fragment {
    * Gets the fragment's data from the database
    * @returns Promise<Buffer>
    */
-  async getData() {
+  getData() {
     try {
       return readFragmentData(this.ownerId, this.id);
     } catch (err) {
